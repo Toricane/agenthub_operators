@@ -65,9 +65,10 @@ class DiscordMessageSender(BaseOperator):
             }
             data = {"content": message_content}
 
-            response = requests.post(url, headers=headers, json=data)
+            session = requests.Session()
+            response = session.post(url, headers=headers, json=data)
 
-            if response.status_code == 200:
+            if 200 <= response.status_code < 300:
                 return "Message sent successfully"
             else:
                 ai_context.add_to_log(f"An error occurred: {response.text}")
