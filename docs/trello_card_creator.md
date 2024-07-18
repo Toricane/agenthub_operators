@@ -2,9 +2,9 @@
 The `TrelloCardCreator` operator creates a card in a list using the Trello API with the specified content.
 
 # Inputs
-- `name`: A string containing the name of the card to be created.
-- `description`: A string containing the description of the card to be created.
-- `label_ids`: A list of strings representing the label IDs to optionally assign to the card.
+- `name`: A string containing the name of the card to be created. Optional.
+- `description`: A string containing the description of the card to be created. Optional.
+- `label_ids`: A list of strings representing the label IDs to optionally assign to the card. Optional.
 
 # Parameters
 - `list_id`: A string representing the ID of the list where the card will be created.

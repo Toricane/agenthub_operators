@@ -29,17 +29,17 @@ class TrelloCardCreator(BaseOperator):
             {
                 "name": "name",
                 "data_type": "string",
-                "placeholder": "Enter the name of the card",
+                "optional": "1",
             },
             {
                 "name": "description",
                 "data_type": "string",
-                "placeholder": "Enter the description of the card",
+                "optional": "1",
             },
             {
                 "name": "label_ids",
                 "data_type": "string[]",
-                "placeholder": "Comma-separated list of label IDs to add to the card",
+                "optional": "1",
             },
         ]
 
