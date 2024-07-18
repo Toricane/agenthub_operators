@@ -53,20 +53,23 @@ class TrelloCardCreator(BaseOperator):
         ]
 
     def run_step(self, step, ai_context: AiContext):
-        params: dict[str, str] = step["parameters"]
-        list_id: str = params.get("list_id")
+        try:
+            params: dict[str, str] = step["parameters"]
+            list_id: str = params.get("list_id")
 
-        name: str = ai_context.get_input("name", self)
-        description: str = ai_context.get_input("description", self)
-        label_ids: list[str] = ai_context.get_input("label_ids", self)
+            name: str = ai_context.get_input("name", self)
+            description: str = ai_context.get_input("description", self)
+            label_ids: list[str] = ai_context.get_input("label_ids", self)
 
-        key: str = ai_context.get_secret("trello_key")
-        token: str = ai_context.get_secret("trello_token")
+            key: str = ai_context.get_secret("trello_key")
+            token: str = ai_context.get_secret("trello_token")
 
-        created_card = self.create_card(
-            list_id, name, description, label_ids, key, token, ai_context
-        )
-        ai_context.set_output("created_card", created_card, self)
+            created_card = self.create_card(
+                list_id, name, description, label_ids, key, token, ai_context
+            )
+            ai_context.set_output("created_card", created_card, self)
+        except Exception as error:
+            ai_context.add_to_log(f"An error occurred: {str(error)}")
 
     def create_card(
         self,
@@ -89,10 +92,15 @@ class TrelloCardCreator(BaseOperator):
             "idLabels": ",".join(label_ids),
         }
 
-        session = requests.Session()
-        response = session.post(url, headers=headers, params=query)
+        try:
+            session = requests.Session()
+            response = session.post(url, headers=headers, params=query)
 
-        if not 200 <= response.status_code < 300:
-            ai_context.add_to_log(f"An error occurred: {response.text}")
+            if not 200 <= response.status_code < 300:
+                ai_context.add_to_log(f"An error occurred: {response.text}")
+                return
 
-        return response.text
+            return response.text
+        except requests.RequestException as error:
+            ai_context.add_to_log(f"An error occurred: {str(error)}")
+            return

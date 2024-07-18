@@ -13,6 +13,6 @@ The `TrelloCardCreator` operator creates a card in a list using the Trello API w
 - `created_card`: A JSON string representing the created card object.
 
 # Functionality
-The `run_step` function is responsible for the main logic of the operator. It reads the list ID from the parameters, and the name, description, and label IDs from the inputs. It also retrieves the API key and token from the AI context. It then calls the `create_card` helper function with the necessary parameters to create the card.
+The `run_step` function is responsible for the main logic of the operator. The list ID is read from the parameters, while the name, description, and label IDs are read from the inputs. The API key and token are retrieved from the AI context. Finally, the `create_card` helper function is called with the necessary parameters to create the card.
 
-The `create_card` function constructs and sends the payload for creating a card in the specified list using the Trello API. If the card creation is successful, the created card object is returned as a JSON string. If an error occurs during the process, the error message from the Trello API is logged and returned as the output.
+The `create_card` function constructs and sends the payload for creating a card in the specified list using the Trello API. If the card creation is successful, the created card object is returned as a JSON string. If an error occurs during the process, the error message from the Trello API is logged and there is no output.
